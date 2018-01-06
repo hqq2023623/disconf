@@ -1,10 +1,57 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="com.baidu.disconf.web.web">
+    </context:component-scan>
+
+    <!-- 拦截器配置 -->
+    <import resource="classpath*:myconfig/spring-servlet-interceptor.xml"/>
+
+    <mvc:resources mapping="/assets/**" location="/assets/" />
+    <mvc:resources mapping="/dep/**" location="/dep/" />
+    <mvc:resources mapping="/tools/**" location="/tools/" />
+
+    <mvc:annotation-driven>
+        <!--enableMatrixVariables="true">-->
+        <mvc:message-converters>
+            <!-- StringHttpMessageConverter编码为UTF-8，防止乱码 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+                <property name="supportedMediaTypes">
+                    <list>
+                        <bean class="org.springframework.http.MediaType">
+                            <constructor-arg index="0" value="text"/>
+                            <constructor-arg index="1" value="plain"/>
+                            <constructor-arg index="2" value="UTF-8"/>
+                        </bean>
+                        <bean class="org.springframework.http.MediaType">
+                            <constructor-arg index="0" value="*"/>
+                            <constructor-arg index="1" value="*"/>
+                            <constructor-arg index="2" value="UTF-8"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+
+            <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"
+                  id="fastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+
+    </mvc:annotation-driven>
 
     <!-- 配置FreeMarkerConfigurer -->
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <property name="templateLoaderPath" value="/WEB-INF/freemarker/"/>
+        <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
         <property name="freemarkerSettings">
             <props>
                 <prop key="template_update_delay">0</prop>
@@ -12,13 +59,10 @@
         </property>
     </bean>
 
-    <!--
-      View resolvers can also be configured with ResourceBundles or XML files. If you need
-      different view resolving based on Locale, you have to use the resource bundle resolver.
-    -->
     <!-- freemarker视图解析器 -->
     <bean id="viewResolverFtl" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-        <property name="suffix" value=".ftl"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".html"/>
         <property name="order" value="0"/>
         <property name="contentType" value="text/html;charset=UTF-8"/>
         <!-- 此变量值为pageContext.request, 页面使用方法：rc.contextPath -->
@@ -26,25 +70,10 @@
         <property name="cache" value="false"/>
     </bean>
 
-    <!-- Convenient subclass of UrlBasedViewResolver that supports InternalResourceView
-        (i.e. Servlets and JSPs) and subclasses such as JstlView. -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          abstract="false" lazy-init="default" autowire="default">
-        <property name="viewClass">
-            <value>org.springframework.web.servlet.view.JstlView</value>
-        </property>
-        <property name="prefix">
-            <value>/WEB-INF/jsp_views/</value>
-        </property>
-        <property name="suffix">
-            <value>.jsp</value>
-        </property>
-    </bean>
-
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"/>
-        <property name="uploadTempDir" value="tmp"></property>
+        <property name="uploadTempDir" value="/tmp"></property>
         <property name="maxInMemorySize" value="4194304"/>
         <!-- 最大内存大小 -->
         <property name="maxUploadSize" value="4194304"/>

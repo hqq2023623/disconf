@@ -59,27 +59,7 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
         </dependency>
 
         <dependency>
@@ -112,6 +92,12 @@
             <artifactId>spring-aop</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.github.knightliao.apollo</groupId>
             <artifactId>apollo</artifactId>
@@ -141,6 +127,10 @@
                 <exclusion>
                     <groupId>javax.jms</groupId>
                     <artifactId>jms</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -192,11 +182,6 @@
         </dependency>
 
         <dependency>
-            <groupId>c3p0</groupId>
-            <artifactId>c3p0</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
@@ -244,13 +229,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
         </dependency>
 
         <dependency>
@@ -277,29 +257,6 @@
         <!-- log -->
 
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.mail</groupId>
-                    <artifactId>mail</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.jms</groupId>
-                    <artifactId>jms</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.jdmk</groupId>
-                    <artifactId>jmxtools</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.jmx</groupId>
-                    <artifactId>jmxri</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
         </dependency>
@@ -313,6 +270,22 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-spring</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+
 
         <!-- test -->
 
@@ -339,12 +312,13 @@
         <defaultGoal>package</defaultGoal>
         <finalName>${project.artifactId}</finalName>
 
+        <filters>
+            <filter>src/main/filters/app-${env}.properties</filter>
+        </filters>
         <resources>
             <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <includes>
-                    <include>**/*.*</include>
-                </includes>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
             </resource>
         </resources>
 
@@ -360,7 +334,8 @@
                 <configuration>
                     <webResources>
                         <resource>
-                            <directory>${project.basedir}/src/main/resources</directory>
+                            <filtering>true</filtering>
+                            <directory>src/main/webapp</directory>
                             <includes>
                                 <include>**/*.*</include>
                             </includes>
@@ -375,55 +350,28 @@
     <profiles>
         <!-- 开发环境默认激活的profile -->
         <profile>
-            <id>rd</id>
+            <id>local</id>
+            <properties>
+                <env>local</env>
+            </properties>
+        </profile>
+
+        <!--测试环境-->
+        <profile>
+            <id>test</id>
+            <properties>
+                <env>test</env>
+            </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <build>
-                <resources>
-                    <!-- 指定环境差异配置的配置文件所在目录 -->
-                    <resource>
-                        <directory>${basedir}/profile/rd</directory>
-                    </resource>
-                </resources>
-            </build>
         </profile>
-
         <!-- online -->
         <profile>
             <id>online</id>
-            <build>
-                <plugins>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <webResources>
-
-                                <resource>
-                                    <directory>${project.build.online.sourceDir}</directory>
-                                    <targetPath>WEB-INF/classes</targetPath>
-                                    <includes>
-                                        <include>**/*.*</include>
-                                    </includes>
-                                </resource>
-
-                                <resource>
-                                    <directory>${project.build.online.sourceDir}</directory>
-                                    <targetPath>/</targetPath>
-                                </resource>
-
-                            </webResources>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
+            <properties>
+                <env>online</env>
+            </properties>
         </profile>
     </profiles>
 

@@ -23,7 +23,7 @@ public class ConfigWatcher implements Watcher {
     public void displayConfig() throws InterruptedException, KeeperException {
 
         String value = store.read(ConfigUpdater.PATH, this, null);
-        System.out.printf("Read %s as %s\n", ConfigUpdater.PATH, value);
+        System.out.printf("Read %s as %s%n", ConfigUpdater.PATH, value);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ConfigWatcher implements Watcher {
                 System.err.println("Interrupted. Exiting.");
                 Thread.currentThread().interrupt();
             } catch (KeeperException e) {
-                System.err.printf("KeeperException: %s. Exiting.\n", e);
+                System.err.printf("KeeperException: %s. Exiting.%n", e);
             }
         }
 

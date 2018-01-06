@@ -19,12 +19,12 @@ import org.slf4j.LoggerFactory;
  */
 public class HttpClientUtil {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(HttpClientUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientUtil.class);
 
     /**
      * 连接器
      */
-    protected static CloseableHttpClient httpclient;
+    private static CloseableHttpClient httpclient;
 
     /**
      * 初始化httpclient对象
@@ -99,10 +99,7 @@ public class HttpClientUtil {
             throw e;
         } finally {
             if (httpclientResponse != null) {
-                try {
-                    httpclientResponse.close();
-                } catch (IOException e) {
-                }
+                httpclientResponse.close();
             }
         }
     }

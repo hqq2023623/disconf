@@ -244,15 +244,16 @@ public class DisconfStoreItemProcessorImpl implements DisconfStoreProcessor {
         StringBuilder sBuffer = new StringBuilder();
         sBuffer.append("\n");
         Map<String, DisconfCenterItem> disMap = DisconfCenterStore.getInstance().getConfItemMap();
-        for (String file : disMap.keySet()) {
-            sBuffer.append("disItem:\t" + file + "\t");
+        for (Map.Entry<String, DisconfCenterItem> entry : disMap.entrySet()) {
+            sBuffer.append("disItem:\t" + entry.getKey() + "\t");
 
             if (LOGGER.isDebugEnabled()) {
-                sBuffer.append(disMap.get(file).toString());
+                sBuffer.append(entry.getValue().toString());
             } else {
-                sBuffer.append(disMap.get(file).infoString());
+                sBuffer.append(entry.getValue().infoString());
             }
             sBuffer.append("\n");
+
         }
 
         return sBuffer.toString();

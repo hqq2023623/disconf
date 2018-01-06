@@ -27,7 +27,7 @@ public class ConfigUpdater {
         while (true) {
             String value = random.nextInt(100) + "";
             store.write(PATH, value);
-            System.out.printf("Set %s to %s\n", PATH, value);
+            System.out.printf("Set %s to %s%n", PATH, value);
             TimeUnit.SECONDS.sleep(random.nextInt(10));
         }
     }

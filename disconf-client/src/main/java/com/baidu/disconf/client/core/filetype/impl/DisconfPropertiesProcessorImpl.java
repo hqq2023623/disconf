@@ -21,17 +21,10 @@ public class DisconfPropertiesProcessorImpl implements DisconfFileTypeProcessor 
 
         // 读取配置
         properties = ConfigLoaderUtils.loadConfig(fileName);
-        if (properties == null) {
-            return null;
-        }
 
-        Map<String, Object> map = new HashMap<String, Object>();
-        for (Object object : properties.keySet()) {
-
-            String key = String.valueOf(object);
-            Object value = properties.get(object);
-
-            map.put(key, value);
+        Map<String, Object> map = new HashMap<>(properties.size());
+        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+            map.put(entry.getKey().toString(), entry.getValue());
         }
 
         return map;

@@ -134,7 +134,7 @@ public final class OsUtil {
         }
 
         // 转移临时下载文件至下载文件夹
-        FileUtils.copyFile(src, dest);
+        MyFileUtils.copyFile(src, dest);
     }
 
     /**
@@ -169,7 +169,7 @@ public final class OsUtil {
 
                         if (dest.exists()) {
                             // 判断内容是否一样
-                            if (FileUtils.isFileEqual(src, dest)) {
+                            if (MyFileUtils.isFileEqual(src, dest)) {
                                 // 内容如果一样，就只需要删除源文件就行了
                                 if (isDeleteSource) {
                                     src.delete();

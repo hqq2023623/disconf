@@ -62,16 +62,10 @@ public enum SupportFileTypeEnum {
         return type;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
 
     public String getModelName() {
         return modelName;
     }
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
-    }
 
 }

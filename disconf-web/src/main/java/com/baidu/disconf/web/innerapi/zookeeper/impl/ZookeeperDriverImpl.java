@@ -293,15 +293,15 @@ public class ZookeeperDriverImpl implements ZooKeeperDriver, InitializingBean, D
             Collections.sort(children, Collator.getInstance(java.util.Locale.CHINA));
             for (String child : children) {
 
-                String nextName = "";
+                String nextName = groupName + "/" + child;;
 
-                if (!"/".equals(groupName)) {
-
-                    nextName = groupName + "/" + child;
-
-                } else {
-                    nextName = groupName + "/" + child;
-                }
+//                if (!"/".equals(groupName)) {
+//
+//                    nextName = groupName + "/" + child;
+//
+//                } else {
+//                    nextName = groupName + "/" + child;
+//                }
 
                 String node = StringUtils.substringAfterLast(nextName, "/");
 

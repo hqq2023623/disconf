@@ -221,10 +221,6 @@ public final class DisconfAutowareConfig {
 
         // 读配置文件
         Properties prop = getProperties(propertyFilePath);
-        if (null == prop) {
-            throw new Exception("cannot autowareConfig " + propertyFilePath);
-        }
-
         autowareStaticConfig(cls, prop);
     }
 

@@ -29,7 +29,7 @@ import com.baidu.disconf.client.DisconfMgr;
 public class ReloadablePropertiesFactoryBean extends PropertiesFactoryBean implements DisposableBean,
         ApplicationContextAware {
 
-    private static ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     protected static final Logger log = LoggerFactory.getLogger(ReloadablePropertiesFactoryBean.class);
 

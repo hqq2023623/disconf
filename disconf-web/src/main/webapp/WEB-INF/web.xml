@@ -5,7 +5,7 @@
     <display-name>mvc-web</display-name>
 
     <welcome-file-list>
-        <welcome-file>index</welcome-file>
+        <welcome-file>/WEB-INF/html/index.html</welcome-file>
     </welcome-file-list>
 
     <context-param>
@@ -15,7 +15,7 @@
 
     <context-param>
         <param-name>spring.profiles.default</param-name>
-        <param-value>production</param-value>
+        <param-value>${env}</param-value>
     </context-param>
 
     <listener>
@@ -45,6 +45,7 @@
         <servlet-name>spring</servlet-name>
         <url-pattern>/index</url-pattern>
     </servlet-mapping>
+
 
     <filter>
         <filter-name>HttpPutFormContentFilter</filter-name>

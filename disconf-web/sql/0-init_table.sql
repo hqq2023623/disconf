@@ -50,6 +50,7 @@ CREATE TABLE `role_resource` (
   PRIMARY KEY (`role_res_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 COMMENT='用户角色_url访问权限表';
 
+DROP TABLE IFEXISTS `user`;
 CREATE TABLE `user` (
   `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `name` varchar(50) NOT NULL COMMENT '姓名',

@@ -32,9 +32,9 @@ public class ParamValidateUtils {
 
     private static ContextReader contextReader;
 
-    @Autowired(required = true)
+    @Autowired
     public ParamValidateUtils(@Qualifier("contextReaderImpl") ContextReader contextReader) {
-        ParamValidateUtils.contextReader = contextReader;
+        this.contextReader = contextReader;
     }
 
     /**
@@ -48,7 +48,7 @@ public class ParamValidateUtils {
                                            ErrorCode errorCode) {
 
         JsonObjectBase jsonObject = JsonObjectUtils.buildFieldError(paramErrors, paramArgusErrors, errorCode);
-        return JsonObjectUtils.JsonObjectError2ModelView((JsonObjectError) jsonObject);
+        return JsonObjectUtils.jsonObjectError2ModelView((JsonObjectError) jsonObject);
     }
 
     /**

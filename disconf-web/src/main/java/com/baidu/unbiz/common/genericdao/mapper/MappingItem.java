@@ -129,7 +129,6 @@ public class MappingItem {
         Map<String, Method> methodMap = ClassUtils.filter2Map(methods);
 
         Table table = isKeyClass ? null : clazz.getAnnotation(Table.class);
-        String keyColumn = isKeyClass ? null : table.keyColumn();
 
         // 循环处理所有字段，过滤出该类加载为对象时需要调用的setter方法map
         for (Field f : fields) {
@@ -148,7 +147,7 @@ public class MappingItem {
             // 字段名字
             String name = f.getName().toLowerCase();
             boolean isKey = name.equals("id");
-            if (isKey && isBaiduClass) {
+            if (isKey) {
                 continue;
             }
 
@@ -165,7 +164,6 @@ public class MappingItem {
             if (item.isIgnore()) {
                 continue;
             }
-            item.dbColumn = isKey ? keyColumn : item.dbColumn;
             mappingItems.add(item);
         }
         return mappingItems;

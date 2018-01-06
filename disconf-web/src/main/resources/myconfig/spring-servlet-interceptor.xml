@@ -30,6 +30,10 @@
                         <value>/api/config/file</value>
                         <value>/api/config/list</value>
                         <value>/api/config/simple/list</value>
+                        <value>/login</value>
+                        <value>/dep</value>
+                        <value>/tools</value>
+                        <value>/assets</value>
                     </list>
                 </property>
                 <property name="XONE_COOKIE_DOMAIN_STRING">

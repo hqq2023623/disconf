@@ -3,6 +3,7 @@ package com.baidu.disconf.web.web.config.validator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -43,7 +44,7 @@ public class FileUploadValidator {
         //
         String filename = file.getOriginalFilename();
 
-        if (filename == "") {
+        if (StringUtils.isBlank(filename)) {
             throw new FieldException("file", "文件名不能为空", null);
         }
 

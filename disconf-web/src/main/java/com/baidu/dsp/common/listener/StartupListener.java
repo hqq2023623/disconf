@@ -28,8 +28,7 @@ public class StartupListener implements ServletContextListener {
 
         } catch (Throwable t) {
             logger.error(t.getMessage(), t);
-
-            System.exit(-1);
+            throw new RuntimeException("StartupListener exception",t);
         }
 
         logger.info("Load StartupListener end...");

@@ -121,7 +121,7 @@ public class MyExceptionHandler extends SimpleMappingExceptionResolver implement
         Map<String, String> errorMap = new HashMap<String, String>();
         errorMap.put(e.getPropertyName(), " parameter cannot find");
         JsonObjectBase jsonObject = JsonObjectUtils.buildFieldError(errorMap, ErrorCode.TYPE_MIS_MATCH);
-        return JsonObjectUtils.JsonObjectError2ModelView((JsonObjectError) jsonObject);
+        return JsonObjectUtils.jsonObjectError2ModelView((JsonObjectError) jsonObject);
     }
 
     /**
@@ -150,7 +150,7 @@ public class MyExceptionHandler extends SimpleMappingExceptionResolver implement
         }
 
         JsonObjectBase jsonObject = JsonObjectUtils.buildGlobalError("parameter type error!", ErrorCode.TYPE_MIS_MATCH);
-        return JsonObjectUtils.JsonObjectError2ModelView((JsonObjectError) jsonObject);
+        return JsonObjectUtils.jsonObjectError2ModelView((JsonObjectError) jsonObject);
     }
 
     /**
@@ -198,7 +198,7 @@ public class MyExceptionHandler extends SimpleMappingExceptionResolver implement
                                     ErrorCode errorCode) {
 
         JsonObjectBase jsonObject = JsonObjectUtils.buildFieldError(paramErrors, paramErrorArgs, errorCode);
-        return JsonObjectUtils.JsonObjectError2ModelView((JsonObjectError) jsonObject);
+        return JsonObjectUtils.jsonObjectError2ModelView((JsonObjectError) jsonObject);
     }
 
     /**
@@ -213,7 +213,7 @@ public class MyExceptionHandler extends SimpleMappingExceptionResolver implement
 
         JsonObjectBase jsonObject = JsonObjectUtils.buildFieldError(paramErrors, errorCode);
         LOG.warn(jsonObject.toString());
-        return JsonObjectUtils.JsonObjectError2ModelView((JsonObjectError) jsonObject);
+        return JsonObjectUtils.jsonObjectError2ModelView((JsonObjectError) jsonObject);
     }
 
     /**
@@ -227,7 +227,7 @@ public class MyExceptionHandler extends SimpleMappingExceptionResolver implement
     private ModelAndView buildError(String errorMsg, ErrorCode errorCode) {
 
         JsonObjectBase jsonObject = JsonObjectUtils.buildGlobalError(errorMsg, errorCode);
-        return JsonObjectUtils.JsonObjectError2ModelView((JsonObjectError) jsonObject);
+        return JsonObjectUtils.jsonObjectError2ModelView((JsonObjectError) jsonObject);
     }
 
     /**
@@ -242,7 +242,7 @@ public class MyExceptionHandler extends SimpleMappingExceptionResolver implement
     private ModelAndView buildError(String errorMsg, Object[] args, ErrorCode errorCode) {
 
         JsonObjectBase jsonObject = JsonObjectUtils.buildGlobalError(errorMsg, errorCode);
-        return JsonObjectUtils.JsonObjectError2ModelView((JsonObjectError) jsonObject);
+        return JsonObjectUtils.jsonObjectError2ModelView((JsonObjectError) jsonObject);
     }
 
 }

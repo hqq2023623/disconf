@@ -96,7 +96,6 @@ public class RoleResourceAspect {
             Boolean isPriviledged = true;
             // 判断用户是否有权限访问方法
             if (!this.isMethodAccessible(urlPattarn, methodType, roleId)) {
-                isPriviledged = false;
                 throw new AccessDeniedException("Access Denied: " + urlInfo + visitorInfo);
             }
             LOG.info("Accessing URL:" + urlInfo + visitorInfo + ", Is priviledged:" + isPriviledged.toString());

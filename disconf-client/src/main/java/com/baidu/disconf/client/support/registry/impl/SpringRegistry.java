@@ -22,7 +22,7 @@ public class SpringRegistry implements Registry, ApplicationContextAware {
     protected static final Logger LOGGER = LoggerFactory.getLogger(SpringRegistry.class);
 
     // Spring应用上下文环境
-    private static ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     private SimpleRegistry simpleRegistry = new SimpleRegistry();
 

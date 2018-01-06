@@ -14,8 +14,10 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-    <mvc:annotation-driven/>
-    <context:component-scan base-package="com.baidu"/>
+    <context:component-scan base-package="com.baidu">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <!-- 定时器开关 -->
@@ -27,9 +29,6 @@
     <!-- Validator设置 -->
     <import resource="classpath*:myconfig/spring-servlet-validator.xml"/>
 
-    <!-- 拦截器配置 -->
-    <import resource="classpath*:myconfig/spring-servlet-interceptor.xml"/>
-
     <!-- configs -->
     <bean id="propertyConfigurerForProject1"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -39,10 +38,6 @@
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="locations">
             <list>
-                <value>classpath*:/jdbc-mysql.properties</value>
-                <value>classpath*:/application.properties</value>
-                <value>classpath*:/zoo.properties</value>
-                <value>classpath*:/redis-config.properties</value>
                 <value>classpath*:/application.properties</value>
             </list>
         </property>
@@ -50,7 +45,7 @@
 
     <bean id="zooConfig"
           class="com.baidu.disconf.web.service.zookeeper.config.ZooConfig">
-        <property name="zooHosts" value="${hosts}"/>
+        <property name="zooHosts" value="${zookeeper.hosts}"/>
         <property name="zookeeperUrlPrefix" value="${zookeeper_url_prefix}"/>
     </bean>
 
@@ -63,15 +58,23 @@
         <property name="fromEmail" value="${DEFAULT_FROM_EMAIL}"/>
         <property name="emailReceiver" value="${EMAIL_RECEIVER}"/>
         <property name="emailMonitorOn" value="${EMAIL_MONITOR_ON}"/>
-        <property name="checkConsistencyOn" value="${CHECK_CONSISTENCY_ON}"/>
+        <property name="checkConsistencyOn" value="${check.consistency.on}"/>
         <property name="domain" value="${domain}"/>
     </bean>
 
     <!-- import -->
+    <import resource="classpath*:myconfig/applicationContext-dbconfig.xml"/>
     <import resource="classpath*:myconfig/applicationContext-cache.xml"/>
     <import resource="classpath*:myconfig/applicationContext-springcache.xml"/>
 
-    <!-- profile -->
+
+    <bean id="loginRedisLogin" class="com.baidu.disconf.web.web.auth.login.impl.RedisLoginImpl"/>
+    <bean id="roleResourceAspect" class="com.baidu.disconf.web.service.roleres.service.RoleResourceAspect"/>
+    <bean id="zookeeperDriver" class="com.baidu.disconf.web.innerapi.zookeeper.impl.ZookeeperDriverImpl"/>
+
+
+<!--
+    &lt;!&ndash; profile &ndash;&gt;
     <beans profile="db-test">
         <import resource="classpath*:applicationContext-dbconfig-test.xml"/>
         <bean id="loginRedisLogin" class="com.baidu.disconf.web.web.auth.login.impl.RedisLoginImplMock"/>
@@ -81,7 +84,6 @@
     </beans>
 
     <beans profile="db-normal">
-        <import resource="classpath*:myconfig/applicationContext-dbconfig.xml"/>
         <bean id="loginRedisLogin" class="com.baidu.disconf.web.web.auth.login.impl.RedisLoginImpl"/>
         <bean id="roleResourceAspect" class="com.baidu.disconf.web.service.roleres.service.RoleResourceAspect"/>
         <bean id="zookeeperDriver" class="com.baidu.disconf.web.innerapi.zookeeper.impl.ZookeeperDriverImpl"/>
@@ -89,9 +91,7 @@
 
     <beans profile="production">
         <import resource="classpath*:myconfig/applicationContext-dbconfig.xml"/>
-        <bean id="loginRedisLogin" class="com.baidu.disconf.web.web.auth.login.impl.RedisLoginImpl"/>
-        <bean id="roleResourceAspect" class="com.baidu.disconf.web.service.roleres.service.RoleResourceAspect"/>
-        <bean id="zookeeperDriver" class="com.baidu.disconf.web.innerapi.zookeeper.impl.ZookeeperDriverImpl"/>
+
     </beans>
 
     <beans profile="rd">
@@ -100,7 +100,7 @@
         <bean id="roleResourceAspect"
               class="com.baidu.disconf.web.service.roleres.service.RoleResourceAspectMock"/>
         <bean id="zookeeperDriver" class="com.baidu.disconf.web.innerapi.zookeeper.impl.ZookeeperDriverMock"/>
-    </beans>
+    </beans>-->
 
 
 </beans>

@@ -3,7 +3,7 @@ package com.baidu.dsp.common.constant;
 public class DataFormatConstants {
 
     // 后端通用的时间格式
-    public static String COMMON_TIME_FORMAT = "yyyyMMddHHmmss";
+    public static final String COMMON_TIME_FORMAT = "yyyyMMddHHmmss";
 
     // 后端通用的时间格式
     public static String COMMON_DATE_FORMAT = "yyyyMMdd";

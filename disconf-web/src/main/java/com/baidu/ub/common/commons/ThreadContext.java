@@ -14,10 +14,10 @@ public class ThreadContext {
     /**
      * 线程上下文变量的持有者
      */
-    private final static ThreadLocal<Map<String, Object>> CTX_HOLDER = new ThreadLocal<Map<String, Object>>();
+    private final static ThreadLocal<Map<String, Object>> CTX_HOLDER = new ThreadLocal<>();
 
     static {
-        CTX_HOLDER.set(new HashMap<String, Object>());
+        CTX_HOLDER.set(new HashMap<>());
     }
 
     /**
@@ -97,7 +97,7 @@ public class ThreadContext {
      * 初始化线程上下文
      */
     public final static void init() {
-        CTX_HOLDER.set(new HashMap<String, Object>());
+        CTX_HOLDER.set(new HashMap<>());
     }
 
     /**

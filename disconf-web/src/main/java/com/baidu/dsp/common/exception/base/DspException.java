@@ -41,8 +41,7 @@ public abstract class DspException extends Exception implements GlobalExceptionA
      * @return
      */
     public String getErrorMessage() {
-
-        return exceptionMessage;
+        return this.exceptionMessage;
     }
 
 }

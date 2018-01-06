@@ -39,7 +39,7 @@ public class PrintZookeeperTree extends ConnectionWatcher {
                 sb.append("\t");
             }
 
-            if (groupName != "/") {
+            if (!"/".equals(groupName)) {
                 String node = StringUtils.substringAfterLast(groupName, "/");
                 sb.append("|----" + node);
                 Stat stat = new Stat();
@@ -59,7 +59,7 @@ public class PrintZookeeperTree extends ConnectionWatcher {
 
             List<String> children = zk.getChildren(groupName, false);
             for (String child : children) {
-                if (groupName != "/") {
+                if (!"/".equals(groupName)) {
                     list(groupName + "/" + child);
                 } else {
                     list(groupName + child);

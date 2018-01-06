@@ -42,16 +42,11 @@ public class DisconfWebPathMgr {
         }
 
         sb.append("?");
-        for (String thisKey : parameterMap.keySet()) {
-
-            String cur = thisKey + "=" + parameterMap.get(thisKey);
-            cur += "&";
-            sb.append(cur);
+        for (Map.Entry<String, String> entry : parameterMap.entrySet()) {
+            sb.append(entry.getKey()).append("=").append(parameterMap.get(entry.getValue())).append("&");
         }
 
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length() - 1);
-        }
+        sb.deleteCharAt(sb.length() - 1);
 
         return sb.toString();
     }

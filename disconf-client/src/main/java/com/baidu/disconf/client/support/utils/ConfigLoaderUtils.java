@@ -1,10 +1,6 @@
 package com.baidu.disconf.client.support.utils;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
@@ -50,13 +46,16 @@ public final class ConfigLoaderUtils {
             // http://stackoverflow.com/questions/3263560/sysloader-getresource-problem-in-java
             URL url = ClassLoaderUtil.getLoader().getResource(propertyFilePath);
             URI uri = new URI(url.toString());
-            props.load(new InputStreamReader(new FileInputStream(uri.getPath()), "utf-8"));
+            try(InputStreamReader reader = new InputStreamReader(new FileInputStream(uri.getPath()), "utf-8")) {
+                props.load(reader);
+            }
 
         } catch (Exception e) {
-
+            InputStream is = ClassLoaderUtil.getLoader().getResourceAsStream(propertyFilePath);
             // http://stackoverflow.com/questions/574809/load-a-resource-contained-in-a-jar
-            props.load(new InputStreamReader(ClassLoaderUtil.getLoader().getResourceAsStream(propertyFilePath),
-                    "utf-8"));
+            try(InputStreamReader reader = new InputStreamReader(is, "utf-8")) {
+                props.load(reader);
+            }
         }
         return props;
     }
@@ -74,7 +73,9 @@ public final class ConfigLoaderUtils {
             throws Exception {
 
         Properties props = new Properties();
-        props.load(new InputStreamReader(new FileInputStream(propertyFilePath), "utf-8"));
+        try(BufferedReader reader = new BufferedReader(new FileReader(new File(propertyFilePath, "utf-8")))) {
+            props.load(reader);
+        }
         return props;
     }
 

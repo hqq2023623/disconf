@@ -101,8 +101,8 @@ public class JsonObjectUtils {
         JsonObjectError json = new JsonObjectError();
         json.setStatus(statusCode.getCode());
 
-        for (String str : errors.keySet()) {
-            json.addFieldError(str, contextReader.getMessage(errors.get(str)));
+        for (Map.Entry<String, String> entry : errors.entrySet()) {
+            json.addFieldError(entry.getKey(), contextReader.getMessage(entry.getValue()));
         }
 
         LOG.info(json.toString());
@@ -123,12 +123,11 @@ public class JsonObjectUtils {
         JsonObjectError json = new JsonObjectError();
         json.setStatus(statusCode.getCode());
 
-        for (String str : errors.keySet()) {
-
+        for (Map.Entry<String, String> entry : errors.entrySet()) {
             try {
-                json.addFieldError(str, contextReader.getMessage(errors.get(str), argsMap.get(str)));
+                json.addFieldError(entry.getKey(), contextReader.getMessage(entry.getValue(), argsMap.get(entry.getKey())));
             } catch (NoSuchMessageException e) {
-                json.addFieldError(str, errors.get(str));
+                json.addFieldError(entry.getKey(), entry.getValue());
             }
         }
 
@@ -154,7 +153,7 @@ public class JsonObjectUtils {
 
     /**
      */
-    public static ModelAndView JsonObjectError2ModelView(JsonObjectError json) {
+    public static ModelAndView jsonObjectError2ModelView(JsonObjectError json) {
 
         ModelAndView model = new ModelAndView(new MappingJackson2JsonView());
         model.addObject(FrontEndInterfaceConstant.RETURN_SUCCESS, json.getSuccess());

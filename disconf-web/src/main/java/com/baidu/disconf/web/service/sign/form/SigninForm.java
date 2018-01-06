@@ -2,6 +2,7 @@ package com.baidu.disconf.web.service.sign.form;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
@@ -68,4 +69,8 @@ public class SigninForm extends RequestFormBase {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }
